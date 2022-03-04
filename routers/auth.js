@@ -2,6 +2,7 @@ const express = require('express')
 const User = require('../models/User')
 const router = new express.Router()
 const CryptoJS = require('crypto-js')
+const jwt = require('jsonwebtoken')
 
 
 router.post('/users/signup', async (req, res) => {
@@ -32,8 +33,17 @@ router.post('/users/login', async (req, res) => {
             res.status(401).json('Unable to login')
         }
 
-        const {password, ...others} = user._doc
-        res.status(200).send(others)
+        const accessToken = jwt.sign({
+            id: user._id,
+            isAdmin: user.isAdmin
+        },
+            process.env.JWT_SECRET_KEY,
+            {expiresIn: "2d"}
+        )
+
+        const { password, ...others } = user._doc
+
+        res.status(200).send({...others, accessToken })
     } catch (e) {
         res.status(500).send(e)
     }
