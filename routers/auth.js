@@ -14,7 +14,17 @@ router.post('/users/signup', async (req, res) => {
 
     try {
         const savedUser = await user.save()
-        res.status(201).send(savedUser)
+        const accessToken = jwt.sign({
+            id: user._id,
+            isAdmin: user.isAdmin
+        },
+            process.env.JWT_SECRET_KEY,
+            {expiresIn: "2d"}
+        )
+
+        const {password, ...others} = savedUser._doc
+        
+        res.status(200).send({...others,  accessToken })
     } catch (e) {
         res.status(500).send(e)
     }

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const OrderSchema = ({
+const OrderSchema = new mongoose.Schema({
     userId: {
         type: String,
         required: true
@@ -27,7 +27,7 @@ const OrderSchema = ({
         default: 'pending'
     }
 }, {
-    timestamp: true
+    timestamps: true
 })
 
 module.exports = mongoose.model('Order', OrderSchema)
