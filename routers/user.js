@@ -1,10 +1,11 @@
 const express = require('express')
 const User = require('../models/User')
+const CryptoJS = require('crypto-js')
 const {verifyTokenAndAuthorization } = require('../src/middleware/verifyToken')
 const router = new express.Router()
 
 router.patch('/users/:id', verifyTokenAndAuthorization, async (req, res) => {
-    if (req.user.password) {
+    if (req.body.password) {
         req.body.password = CryptoJS.AES.encrypt(req.body.password, process.env.SECRET_KEY).toString()
     }
     try {
