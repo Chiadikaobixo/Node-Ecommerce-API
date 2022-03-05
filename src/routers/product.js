@@ -1,7 +1,7 @@
 const express = require('express')
 const router = new express.Router()
 const Product = require('../models/Product')
-const { verifyTokenAndAdmin } = require('../src/middleware/verifyToken')
+const { verifyTokenAndAdmin } = require('../middleware/verifyToken')
 
 router.post('/products', verifyTokenAndAdmin, async(req, res) => {
     const newProduct = new Product(req.body)

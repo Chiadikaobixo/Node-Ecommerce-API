@@ -1,7 +1,7 @@
 const userRouter = require('./routers/user')
 const authRouter = require('./routers/auth')
 const productRouter = require('./routers/product')
-require('./src/db/mongoose')
+require('./db/mongoose')
 const app = require('./app') 
 
 app.use(userRouter)

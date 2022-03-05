@@ -4,7 +4,7 @@ const CryptoJS = require('crypto-js')
 const {
     verifyTokenAndAuthorization,
     verifyTokenAndAdmin
-} = require('../src/middleware/verifyToken')
+} = require('../middleware/verifyToken')
 const router = new express.Router()
 
 router.patch('/users/:id', verifyTokenAndAuthorization, async (req, res) => {

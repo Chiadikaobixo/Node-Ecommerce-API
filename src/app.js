@@ -1,5 +1,5 @@
 const express = require('express')
-require('./src/db/mongoose')
+require('./db/mongoose')
 
 const app = express()
 app.use(express.json())
