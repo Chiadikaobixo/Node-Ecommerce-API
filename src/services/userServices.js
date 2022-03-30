@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const CryptoJS = require('crypto-js')
+const CustomError = require('../utils/customError')
 
 
 class UserService {
@@ -11,17 +12,23 @@ class UserService {
             { $set: data },
             { new: true }
         )
+        if (!updatedUser) throw new CustomError('User does not exist!', 404)
+
         return updatedUser
     }
 
     async deleteUser(userId) {
         const user = await User.findByIdAndDelete({ _id: userId })
 
+        if (!user) throw new CustomError('No user found!', 404)
+
         return user
     }
 
     async getUser(userId) {
         const user = await User.findById({ _id: userId })
+        if (!user) throw new CustomError('User not found!', 404)
+
         const { password, ...others } = user._doc
 
         return { ...others }
@@ -32,6 +39,7 @@ class UserService {
         const users = query
             ? await User.find().sort({ _id: -1 }).limit(5)
             : await User.find()
+        if (!users) throw new CustomError('No users found!', 404)
 
         return users
     }
@@ -54,6 +62,8 @@ class UserService {
                 }
             }
         ])
+
+        if(!data) throw new CustomError('no data found', 404)
         return data
     }
 }

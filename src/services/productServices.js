@@ -1,4 +1,5 @@
 const Product = require('../models/Product')
+const CustomError = require('../utils/customError')
 
 class ProductServices {
     async postProduct(data) {
@@ -13,25 +14,27 @@ class ProductServices {
             { $set: data },
             { new: true }
         )
-
+        if (!updatedProduct) throw new CustomError('product not found', 404)
         return updatedProduct
     }
 
     async deletedProduct(userId) {
         const deletedProduct = await Product.findByIdAndDelete({ _id: userId })
+        if (!deletedProduct) throw new CustomError('product not found', 404)
 
         return deletedProduct
     }
 
     async getProduct(userId) {
         const product = await Product.findById({ _id: userId })
+        if (!product) throw new CustomError('No product found!', 404)
 
         return product
     }
 
     async getAllProducts(productQuery, categoryQuery) {
-        const queryNew = {new: productQuery }
-        const queryCategory = {category: categoryQuery}
+        const queryNew = { new: productQuery }
+        const queryCategory = { category: categoryQuery }
 
         let products
         if (queryNew) {
@@ -45,6 +48,8 @@ class ProductServices {
         } else {
             products = await Product.find()
         }
+
+        if (!products) throw new CustomError('no products found!', 404)
 
         return products
     }

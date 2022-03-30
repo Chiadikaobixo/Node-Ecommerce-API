@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken')
 const CryptoJS = require('crypto-js')
 const User = require('../models/User')
+const CustomError = require('../utils/customError')
+
 
 class AuthServices {
     async signUp(data) {
@@ -29,15 +31,13 @@ class AuthServices {
 
     async login(data){
         const user = await User.findOne({ email: data.email })
-        if (!user) {
-            res.status(401).json('Unable to login')
-        }
+        if (!user) throw new CustomError('Incorrect username or password!')
+        
 
         const hashedPassword = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY)
         const initialPassword = hashedPassword.toString(CryptoJS.enc.Utf8)
-        if (initialPassword !== data.password) {
-            res.status(401).json('Unable to login')
-        }
+        if (initialPassword !== data.password) throw new CustomError('Incorrect username or password!')
+        
 
         const accessToken = jwt.sign({
             id: user._id,

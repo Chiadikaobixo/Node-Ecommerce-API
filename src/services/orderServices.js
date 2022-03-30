@@ -1,4 +1,6 @@
 const Order = require('../models/Order')
+const CustomError = require('../utils/customError')
+
 
 class OrderServices {
     async newOrder(data) {
@@ -8,29 +10,34 @@ class OrderServices {
         return savedOrder
     }
 
-    async updateOrder(userId, data) {
-        const updatedOrder = await Order.findByIdAndUpdate({ _id: userId },
+    async updateOrder(orderId, data) {
+        const updatedOrder = await Order.findByIdAndUpdate({ _id: orderId },
             { $set: data },
             { new: true }
         )
+        if (!updatedOrder) throw new CustomError('Order not found!', 404)
 
         return updatedOrder
     }
 
-    async deleteOrder(userId) {
-        const deletedOrder = await Order.findByIdAndDelete({ _id: userId })
+    async deleteOrder(orderId) {
+        const deletedOrder = await Order.findByIdAndDelete({ _id: orderId })
+        if (!deletedOrder) throw new CustomError('Order not found!', 404)
+
 
         return deletedOrder
     }
 
     async getOrder(userId) {
-        const orders = await Order.find({ userId: userId })
+        const order = await Order.find({ userId: userId })
+        if (!order) throw new CustomError('Order not found!', 404)
 
-        return orders
+        return order
     }
 
     async getAllOrders() {
         const orders = await Order.find()
+        if (!orders) throw new CustomError('Orders not found!', 404)
 
         return orders
     }
@@ -55,6 +62,9 @@ class OrderServices {
                 }
             }
         ])
+
+        if (!income) throw new CustomError('income statistics not found!', 404)
+
 
         return income
     }

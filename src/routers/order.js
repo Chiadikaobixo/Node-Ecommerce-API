@@ -6,9 +6,9 @@ const orderControllers = require('../controllers/orderControllers')
 
 router.post('/orders', verifyToken, orderControllers.newOrder)
 
-router.patch('/orders/:id', verifyTokenAndAdmin, orderControllers.updateOder)
+router.patch('/orders/:orderId', verifyTokenAndAdmin, orderControllers.updateOder)
 
-router.delete('/orders/:id', verifyTokenAndAdmin, orderControllers.deleteOrder)
+router.delete('/orders/:orderId', verifyTokenAndAdmin, orderControllers.deleteOrder)
 
 router.get('/orders/:userId', verifyTokenAndAuthorization, orderControllers.getOrder)
 

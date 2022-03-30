@@ -6,9 +6,9 @@ const cartControllers = require('../controllers/cartControllers')
 
 router.post('/carts', verifyToken, cartControllers.addToCart)
 
-router.patch('/carts/:id', verifyTokenAndAuthorization, cartControllers.updateCart)
+router.patch('/carts/:cartId', verifyTokenAndAuthorization, cartControllers.updateCart)
 
-router.delete('/carts/:id', verifyTokenAndAuthorization, cartControllers.deleteCart)
+router.delete('/carts/:cartId', verifyTokenAndAuthorization, cartControllers.deleteCart)
 
 router.get('/carts/:userId', verifyTokenAndAuthorization, cartControllers.getCart)
 
