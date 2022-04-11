@@ -4,7 +4,7 @@ const response = require('../utils/response')
 class OrderControllers {
     async newOrder(req, res) {
         const savedOrder = await orderServices.newOrder(req.body)
-        res.status(201).send(response('0rder created', savedOrder))
+        res.status(201).send(response('order created', savedOrder))
     }
 
     async updateOder(req, res) {
