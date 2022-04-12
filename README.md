@@ -1,5 +1,5 @@
 ## Overview
-This API performs basic CRUD operation of an e-commerce web-application which includes :
+This API performs basic CRUD operation of an e-commerce store web-application which includes :
 
 Create user, products, orders, and cart  
 Read user, products, orders, and cart  
@@ -8,7 +8,7 @@ Delete user, products, orders, and cart
 This API also implements Authentication and Authorization of users and admin.
 
 Try it out
-For a demo check this link https://
+For a demo check this link https://chiadi-ecommerce-api.herokuapp.com
 
 Getting Started
 These instructions will get a copy of the project up and running on your machine for development.
